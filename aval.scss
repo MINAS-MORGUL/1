@@ -1,0 +1,1324 @@
+* {
+  margin: 0;
+
+  box-sizing: border-box;
+}
+body {
+  background-color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+// menuuuuuuuuuuuuuuuuuuuuuuuu
+
+// منو موبایل نشون نده
+.nav {
+  display: none;
+}
+
+nav {
+  background-color: rgb(255, 255, 255);
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: space-around;
+  height: 8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// .logo {
+
+$t: 1s;
+$d: 0.08em;
+$n: 3;
+$e: cubic-bezier(0.86, 0, 0.07, 1);
+$front: black;
+$back: rgb(13, 228, 146);
+
+#logo {
+  margin: auto 0;
+  text-decoration: none;
+}
+.popout {
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 2.5rem;
+
+  @keyframes ani {
+    0% {
+      transform: translate3d(0, 0, 0);
+      text-shadow: 0em 0em 0 $back;
+      color: $front;
+    }
+    30% {
+      transform: translate3d(0, 0, 0);
+      text-shadow: 0em 0em 0 $back;
+      color: $front;
+    }
+    70% {
+      transform: translate3d($d, -$d, 0);
+      text-shadow: -$d $d $back;
+      color: $front;
+    }
+    100% {
+      transform: translate3d($d, -$d, 0);
+      text-shadow: -$d $d $back;
+      color: $front;
+    }
+  }
+  span {
+    display: inline-block;
+    animation: ani $t infinite alternate $e;
+    @for $i from 1 through $n {
+      &:nth-last-child(#{$i}n) {
+        animation-delay: -$t * $i/$n/2;
+      }
+    }
+  }
+}
+
+//
+
+.nav-list {
+  text-decoration: none;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-list li {
+  /* هم انداره ارتفاع nav */
+  //   فاصله منو زیر چن مرحله ایی تا منو اصلییش. با کمو زیاد کردن ارتفاع مبفهمم خیلی مهمه
+  line-height: 8rem;
+  position: relative;
+}
+
+.sub-menu li {
+  line-height: 4rem;
+  list-style-type: none;
+}
+.nav-list a {
+  display: block;
+  color: rgb(0, 0, 0);
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  text-decoration: none;
+
+  /* رنگ گزینه های منو اصلی ارووم تغییر کنه */
+  transition: color 300ms;
+}
+.nav-list a:hover {
+  color: rgb(13, 228, 146);
+  text-decoration: overline 3px rgb(13, 228, 146);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+/* منو داخلی */
+.sub-menu {
+  // عرضضضضضضضض ندادم تا به اندازه متنش جا بگیره
+  display: block;
+  position: absolute;
+  border-top: 3px solid rgb(13, 228, 146);
+  border-radius: 1rem;
+  background-color: #e4e4e4e1;
+  z-index: 100;
+  //   با تغیر میفهمم .موقع محو شدنو نشون میده
+  top: 16rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 800ms ease;
+}
+/* مثلث قرمز بالای منو داخلی */
+.sub-menu::before {
+  content: "";
+  position: absolute;
+  top: -2.5rem;
+  left: 1rem;
+  border: 1.2rem solid transparent;
+  border-bottom-color: rgb(13, 228, 146);
+}
+/* منو داخل منو داخلی */
+.sub-menu .sub-menu::before {
+  top: 0.9rem;
+  right: -2.5rem;
+  border: 1.2rem solid transparent;
+  border-right: rgb(13, 228, 146);
+}
+
+.sub-menu .sub-menu {
+  border-top: none;
+  border-left: 3px solid rgb(13, 228, 146);
+  // نحوه پیدا و پنهان شدن منو زیرین
+  top: 20%;
+  right: 150%;
+}
+/* اولین منو داخلی */
+.nav-list li:hover > .sub-menu {
+  top: 8rem;
+  opacity: 100;
+  visibility: visible;
+}
+/* منو داخلی های دوم و سوم */
+.sub-menu li:hover > .sub-menu {
+  // نحوه چینش منو های دوم و سوم کنار هم
+  // فاصله عمودی
+  top: -10%;
+  // فاصله افقی
+  right: 145%;
+}
+
+// iamge slideeeeeeeeee
+
+.slideshow {
+  list-style-type: none;
+}
+
+/** SLIDESHOW **/
+.main-aval {
+  display: grid;
+
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  overflow: hidden;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.main-aval,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+$numOfSlides: 5;
+$slidingAT: 1.3s;
+$controlSize: 60px;
+
+.slider {
+  position: relative;
+  height: 70vh;
+
+  &__slides {
+    z-index: 1;
+    position: relative;
+    height: 100%;
+  }
+
+  &__control {
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    width: $controlSize;
+    height: $controlSize;
+    margin-left: $controlSize/-2;
+    margin-top: $controlSize/-2;
+    border-radius: 50%;
+    background: #fff;
+    transition: background-color 0.3s;
+    cursor: pointer;
+
+    &--right {
+      left: 95%;
+    }
+
+    &:hover {
+      background-color: rgb(13, 228, 146);
+    }
+
+    &-line {
+      position: absolute;
+      left: 23px;
+      top: 50%;
+      width: 3px;
+      height: 14px;
+      transform-origin: 50% 0;
+      transform: rotate(-45deg);
+
+      &:nth-child(2) {
+        transform: translateY(1px) rotate(-135deg);
+      }
+
+      .slider__control--right & {
+        left: 37px;
+        transform-origin: 1px 0;
+        transform: rotate(45deg);
+
+        &:nth-child(2) {
+          transform: translateY(1px) rotate(135deg);
+        }
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #e2e2e2;
+        transition: background-color 0.3s;
+      }
+
+      .slider__control:hover &:after {
+        background-color: #fff;
+      }
+
+      .slider__control.a--rotation & {
+        &:after {
+          animation: arrowLineRotation 0.49s;
+        }
+
+        &:nth-child(1):after {
+          animation: arrowLineRotationRev 0.49s;
+        }
+      }
+    }
+  }
+}
+
+@keyframes arrowLineRotation {
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes arrowLineRotationRev {
+  to {
+    transform: rotate(-180deg);
+  }
+}
+
+.slide {
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: clip-path 0s $slidingAT * 0.7;
+  clip-path: circle($controlSize/2 at 120vw 50%);
+
+  &.s--prev {
+    clip-path: circle($controlSize/2 at 30vw 50%);
+  }
+
+  &.s--active {
+    z-index: 1;
+    transition: clip-path $slidingAT;
+    clip-path: circle(120vmax at 120vw 50%);
+
+    &.s--active-prev {
+      clip-path: circle(120vmax at 30vw 50%);
+    }
+  }
+
+  @for $i from 1 through $numOfSlides {
+    &:nth-child(#{$i}) {
+      .slide__inner {
+        background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/onepgscr-#{$i+1}.jpg");
+      }
+    }
+  }
+
+  &__inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100vw;
+    height: 100vh;
+    margin-left: -50vw;
+    margin-top: -50vh;
+    background-size: cover;
+    background-position: center center;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &__content {
+    position: absolute;
+    left: 5%;
+    top: 50%;
+    margin-left: $controlSize/-2;
+    margin-top: $controlSize * 0.8;
+    max-width: 480px;
+    color: #fff;
+  }
+
+  &__heading {
+    margin-bottom: 20px;
+    font-size: 60px;
+  }
+
+  &__text {
+    font-size: 25px;
+
+    a {
+      color: inherit;
+    }
+  }
+}
+// yoooooooooooooo
+.slidedo {
+  background-color: rgb(255, 245, 245);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  overflow: hidden;
+}
+
+.wrapperr {
+  position: relative;
+
+  margin: 2rem auto;
+  max-width: 1300px;
+  max-height: 1300px;
+
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 2vmin;
+  justify-items: center;
+  align-items: center;
+}
+
+.slidedo IMG {
+  z-index: 1;
+  grid-column: span 2;
+  max-width: 100%;
+  margin-bottom: -52%;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transform: scale(1);
+  transition: all 1s;
+
+  &:nth-child(7n + 1) {
+    grid-column: 2 / span 2;
+  }
+
+  &:hover {
+    z-index: 2;
+    transform: scale(1.5);
+  }
+}
+
+// تب هاااااااااااااا
+
+@import url("https://fonts.googleapis.com/css?family=Oswald");
+
+$base-color: rgb(255, 255, 255);
+$second-color: rgb(13, 228, 146);
+$third-color: rgb(0, 0, 0);
+$site: rgb(236, 234, 234);
+$light: rgb(26, 26, 26);
+
+.main-do {
+  padding: 3rem 2rem 2rem 0;
+  position: relative;
+  font-family: "Oswald", sans-serif;
+  background: $site;
+  color: $light;
+  font-size: 20px;
+}
+
+.grid {
+  list-style: none;
+  margin-left: -40px;
+}
+
+.gc {
+  box-sizing: border-box;
+  display: inline-block;
+  margin-right: -0.25em;
+  min-height: 1px;
+  padding-left: 40px;
+  vertical-align: top;
+}
+
+.gc--1-of-3 {
+  width: 33.33333%;
+}
+
+.gc--2-of-3 {
+  width: 66.66666%;
+}
+
+.naccs {
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+}
+
+.naccs .menu div {
+  min-width: 8rem;
+  padding: 15px 20px 15px 40px;
+  margin-bottom: 10px;
+  color: $base-color;
+  background: $second-color;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+  font-weight: 700;
+  transition: 1s all cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@media (max-width: 400px) {
+  .main-do p {
+    padding-left: 1rem;
+  }
+}
+
+.naccs .menu div:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(56, 238, 117);
+}
+
+.naccs .menu div span.light {
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  top: 24px;
+  left: 15px;
+  background-color: $base-color;
+  border-radius: 100%;
+  transition: 1s all cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.naccs .menu div.active span.light {
+  background-color: $third-color;
+  left: 0;
+  height: 100%;
+  width: 3px;
+  top: 0;
+  border-radius: 0;
+}
+
+.naccs .menu div.active {
+  color: $third-color;
+  padding: 15px 20px 15px 20px;
+}
+
+ul.nacc {
+  position: relative;
+  height: 0px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transition: 0.5s all cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+ul.nacc li {
+  opacity: 0;
+  transform: translateX(50px);
+  position: absolute;
+  list-style: none;
+  transition: 1s all cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+ul.nacc li.active {
+  transition-delay: 0.3s;
+  z-index: 2;
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+ul.nacc li p {
+  margin: 0;
+}
+
+// tabe dovooooooooooooooooooooooooooooooom
+
+// rah haaaaaaaaaaaye taamaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaas page
+
+.gridi {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  background-color: rgb(255, 245, 245);
+}
+@import url("https://fonts.googleapis.com/css?family=Roboto:700");
+@keyframes showTopText {
+  0% {
+    transform: translate3d(0, 100%, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(0, 50%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes showBottomText {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.animated-title {
+  color: #222;
+  line-height: 3rem;
+  letter-spacing: 0.1rem;
+  height: 100%;
+  margin: 2rem auto;
+  text-align: center;
+  width: 90vmin;
+  font-family: "Kanit", sans-serif;
+}
+.animated-title > div {
+  height: auto;
+  overflow: hidden;
+
+  width: 100%;
+}
+.animated-title > div div {
+  font-size: 1.2rem;
+  padding: 4vmin 0;
+}
+.animated-title > div div span {
+  display: block;
+}
+.animated-title > div.text-top {
+  border-bottom: 1vmin solid rgb(13, 228, 146);
+}
+.animated-title > div.text-top div {
+  animation: showTopText 2.5s;
+  animation-delay: 0.1s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(0%, 100%);
+}
+.animated-title > div.text-top #yek {
+  animation: showTopText 1s;
+  animation-delay: 1.5s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(100%, 0%);
+}
+.animated-title > div.text-top #do {
+  animation: showTopText 1s;
+  animation-delay: 1.6s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(0, 100%);
+}
+.animated-title > div.text-top #se {
+  animation: showTopText 1s;
+  animation-delay: 1.7s;
+  animation-fill-mode: forwards;
+  bottom: 0;
+  transform: translate(0, 100%);
+}
+.animated-title > div.text-bottom div {
+  animation-fill-mode: forwards;
+  text-align: center;
+  transform: translate(100, -100%);
+}
+
+.animated-title > div.text-bottom #chahar {
+  animation: showBottomText 2.5s;
+  animation-delay: 1.8s;
+  animation-fill-mode: forwards;
+  transform: translate(0, -100%);
+}
+.animated-title > div.text-bottom #panj {
+  animation: showBottomText 2.5s;
+  animation-delay: 2.8s;
+  animation-fill-mode: forwards;
+  transform: translate(0, -100%);
+  margin-right: 1rem;
+}
+.animated-title > div.text-bottom #panj a {
+  text-decoration: none;
+  font-weight: bolder;
+  color: black;
+}
+
+.animated-title > div.text-bottom #panj a:hover {
+  color: rgb(21, 226, 131);
+}
+.animated-title > div.text-bottom #panj a {
+  transition: all 1s ease-in;
+}
+
+.animated-title > div.text-bottom img {
+  animation: showBottomText 2.5s;
+  animation-delay: 2.8s;
+  animation-fill-mode: forwards;
+  transform: translate(0, -100%);
+  margin-right: 1rem;
+}
+
+// sabte naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaam
+.main-g {
+  display: grid;
+  background-color: rgb(255, 245, 245);
+  margin: 5.1rem 0;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+
+.forms-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 32px;
+  letter-spacing: 1px;
+  color: rgb(0, 0, 0);
+}
+
+.forms {
+  display: flex;
+  align-items: flex-start;
+  margin: auto;
+}
+
+.form-wrapper {
+  animation: hideLayer 0.3s ease-out forwards;
+}
+
+.form-wrapper.is-active {
+  animation: showLayer 0.3s ease-in forwards;
+}
+
+@keyframes showLayer {
+  50% {
+    z-index: 1;
+  }
+  100% {
+    z-index: 1;
+  }
+}
+
+@keyframes hideLayer {
+  0% {
+    z-index: 1;
+  }
+  49.999% {
+    z-index: 1;
+  }
+}
+
+.switcher {
+  position: relative;
+
+  cursor: pointer;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  color: rgb(167, 164, 164);
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transform: translateX(0);
+  transition: all 0.3s ease-out;
+}
+
+.form-wrapper.is-active .switcher-login {
+  color: rgb(0, 0, 0);
+  transform: translateX(90px);
+}
+
+.form-wrapper.is-active .switcher-signup {
+  color: rgb(0, 0, 0);
+  transform: translateX(-90px);
+}
+
+.underline {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  width: 100%;
+  height: 2px;
+}
+
+.underline::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: inherit;
+  display: block;
+  width: inherit;
+  height: inherit;
+  background-color: currentColor;
+  transition: transform 0.2s ease-out;
+}
+
+.switcher-login .underline::before {
+  transform: translateX(101%);
+}
+
+.switcher-signup .underline::before {
+  transform: translateX(-101%);
+}
+
+.form-wrapper.is-active .underline::before {
+  transform: translateX(0);
+}
+
+.form {
+  overflow: hidden;
+  min-width: 260px;
+  margin-top: 50px;
+  padding: 30px 25px;
+  border-radius: 5px;
+  transform-origin: top;
+}
+
+.form-login {
+  animation: hideLogin 0.3s ease-out forwards;
+}
+
+.form-wrapper.is-active .form-login {
+  animation: showLogin 0.3s ease-in forwards;
+}
+
+@keyframes showLogin {
+  0% {
+    background: #d7e7f1;
+    transform: translate(40%, 10px);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  100% {
+    background-color: rgb(25, 163, 99);
+    transform: translate(35%, -20px);
+  }
+}
+
+@keyframes hideLogin {
+  0% {
+    background-color: rgb(25, 163, 99);
+    transform: translate(35%, -20px);
+  }
+  50% {
+    transform: translate(0, 0);
+  }
+  100% {
+    background: #d7e7f1;
+    transform: translate(40%, 10px);
+  }
+}
+
+.form-signup {
+  animation: hideSignup 0.3s ease-out forwards;
+}
+
+.form-wrapper.is-active .form-signup {
+  animation: showSignup 0.3s ease-in forwards;
+}
+
+@keyframes showSignup {
+  0% {
+    background: #d7e7f1;
+    transform: translate(-40%, 10px) scaleY(0.8);
+  }
+  50% {
+    transform: translate(0, 0) scaleY(0.8);
+  }
+  100% {
+    background-color: rgb(25, 163, 99);
+    transform: translate(-35%, -20px) scaleY(1);
+  }
+}
+
+@keyframes hideSignup {
+  0% {
+    background-color: rgb(25, 163, 99);
+    transform: translate(-35%, -20px) scaleY(1);
+  }
+  50% {
+    transform: translate(0, 0) scaleY(0.8);
+  }
+  100% {
+    background: #d7e7f1;
+    transform: translate(-40%, 10px) scaleY(0.8);
+  }
+}
+
+.form fieldset {
+  position: relative;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  transition: all 0.3s ease-out;
+}
+
+.form-login fieldset {
+  transform: translateX(-50%);
+}
+
+.form-signup fieldset {
+  transform: translateX(50%);
+}
+
+.form-wrapper.is-active fieldset {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.4s ease-in, transform 0.35s ease-in;
+}
+
+.form legend {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+}
+
+.input-block {
+  margin-bottom: 20px;
+}
+
+.input-block label {
+  font-size: 14px;
+  color: #a1b4b4;
+}
+
+.input-block input {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding-right: 15px;
+  padding-left: 15px;
+  font-size: 16px;
+  line-height: 40px;
+  color: #000000;
+  background: rgb(25, 163, 99) 0fd;
+  border: 1px solid #cddbef;
+  border-radius: 2px;
+}
+
+.form [type="submit"] {
+  opacity: 0;
+  display: block;
+  min-width: 120px;
+  margin: 30px auto 10px;
+  font-size: 18px;
+  line-height: 40px;
+  border-radius: 25px;
+  border: none;
+  transition: all 0.3s ease-out;
+}
+
+.form-wrapper.is-active .form [type="submit"] {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.4s ease-in;
+}
+
+.btn-login {
+  color: #a7e245;
+  background: rgb(25, 163, 99);
+  box-shadow: inset 0 0 0 2px #a7e245;
+  transform: translateX(30%);
+}
+
+.btn-signup {
+  color: #a7e245;
+  background: rgb(25, 163, 99);
+  box-shadow: inset 0 0 0 2px #a7e245;
+  transform: translateX(30%);
+}
+.btn-signup:hover {
+  cursor: pointer;
+  color: rgb(25, 163, 99);
+  background-color: white;
+}
+.btn-login:hover {
+  cursor: pointer;
+  color: rgb(25, 163, 99);
+  background-color: white;
+}
+
+// foooooooooooooooooooter
+
+.foot-g {
+  line-height: 3rem;
+  background-image: url("https://www.dropbox.com/s/2ct0i6kc61vp0bh/wall.jpg?raw=1");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #141414;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+}
+
+footer img:hover {
+  transform: scale(150%) rotate(360deg);
+}
+img {
+  transition: transform 1.2s;
+}
+
+.social,
+.adress {
+  text-align: center;
+  padding: 2rem;
+  color: #f9ffc6;
+}
+
+/*-- Base Styles --*/
+
+.sign {
+  position: relative;
+  margin: 0;
+  height: 100%;
+}
+
+.sign {
+  font-family: serif;
+}
+
+/*-- Sign Styles --*/
+
+.sign {
+  text-align: center;
+
+  &__word {
+    font-size: 4rem;
+    text-align: center;
+    line-height: 1.5;
+    color: #ffffff;
+    animation: neon 0.08s ease-in-out infinite alternate;
+  }
+}
+
+/*-- Animation Keyframes --*/
+
+// animation
+
+@keyframes neon {
+  from {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.92),
+      0 0 30px rgba(202, 228, 225, 0.34), 0 0 12px rgba(30, 132, 242, 0.52),
+      0 0 21px rgba(30, 132, 242, 0.92), 0 0 34px rgba(30, 132, 242, 0.78),
+      0 0 54px rgba(30, 132, 242, 0.92);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.98),
+      0 0 30px rgba(202, 228, 225, 0.42), 0 0 12px rgba(30, 132, 242, 0.58),
+      0 0 22px rgba(30, 132, 242, 0.84), 0 0 38px rgba(30, 132, 242, 0.88),
+      0 0 60px rgba(30, 132, 242, 1);
+  }
+}
+
+// Link
+.sign a {
+  text-decoration: none;
+
+  &:focus,
+  &:hover {
+    color: #c6e2ff;
+    text-shadow: 0 0 2px rgba(202, 228, 225, 0.92),
+      0 0 10px rgba(202, 228, 225, 0.34), 0 0 4px rgba(30, 132, 242, 0.52),
+      0 0 7px rgba(30, 132, 242, 0.92), 0 0 11px rgba(30, 132, 242, 0.78),
+      0 0 16px rgba(30, 132, 242, 0.92);
+  }
+}
+
+// mediaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+@media (min-width: 1300px) {
+  .mainnav {
+    padding-left: 5rem;
+  }
+}
+
+@media (min-width: 650px) {
+  footer .social {
+    margin: auto;
+  }
+  footer .sign {
+    padding: 7rem 2rem 0 0;
+  }
+}
+@media (max-width: 1000px) {
+  nav {
+    text-align: center;
+    display: block;
+    height: auto;
+  }
+
+  .popout {
+    margin: auto;
+    font-size: 2.6rem;
+  }
+}
+
+@media (max-width: 735px) {
+  #logo {
+    margin: auto;
+    text-decoration: none;
+  }
+  .popout {
+    width: auto;
+    font-size: 2.5rem;
+    margin: auto 3rem;
+  }
+
+  // منو صفحه بزرگ نشون نده
+  .nav-list {
+    display: none;
+  }
+  // منو موبایل
+  .nav {
+    display: block;
+    margin-bottom: 2rem;
+  }
+  .multi-level,
+  .item ul,
+  .nav input[type="checkbox"] {
+    display: none;
+  }
+  #menu:checked ~ .multi-level,
+  .item input:checked ~ ul {
+    display: block;
+  }
+
+  /* arrow */
+
+  .arrow {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    float: left;
+    z-index: 0;
+
+    margin: 1.5rem 0rem 0 0.5rem;
+  }
+  .arrow1 {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    float: left;
+    z-index: 0;
+    margin: 17px 1.5em 0 2em;
+  }
+  .arrow2 {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+    float: left;
+    z-index: 0;
+    margin: 17px 1em 0 2em;
+  }
+  .item input + .arrow {
+    transform: rotate(-90deg);
+    transition: 0.5s;
+  }
+  .item input:checked + .arrow {
+    transform: rotate(0deg);
+    transition: 0.5s;
+  }
+  .item input + .arrow1 {
+    transform: rotate(-90deg);
+    transition: 0.5s;
+  }
+  .item input:checked + .arrow1 {
+    transform: rotate(0deg);
+    transition: 0.5s;
+  }
+  .item input + .arrow2 {
+    transform: rotate(-90deg);
+    transition: 0.5s;
+  }
+  .item input:checked + .arrow2 {
+    transform: rotate(0deg);
+    transition: 0.5s;
+  }
+  label {
+    width: 100%;
+    display: block;
+    /* تا بعدا علامت فلشو بهش بچسبونم */
+    // که با کلیک روو فلش هم باز شن بقیه منو
+    position: relative;
+  }
+  .nav {
+    width: 100%;
+    background-color: rgb(219, 2, 49);
+    overflow-x: hidden;
+    border-bottom: 1px solid #fafafa;
+  }
+
+  // ایکون همبرگر
+  #nav-icon {
+    font-size: 28px;
+    line-height: 50px;
+    padding-left: 2rem;
+    color: white;
+    background-color: rgb(243, 87, 26);
+  }
+
+  .nav ul {
+    line-height: 50px;
+
+    padding: 0 2em;
+    list-style: none;
+    text-decoration: none;
+    color: #ffffff;
+    width: 100%;
+    font-weight: 800;
+  }
+  .item a {
+    text-decoration: none;
+    color: white;
+    font-weight: 800;
+    margin: auto;
+  }
+
+  .nav #se {
+    line-height: 50px;
+
+    padding: 0 2em;
+    list-style: none;
+    text-decoration: none;
+    color: #ffffff;
+    width: 100%;
+    font-weight: 800;
+  }
+  .nav #bish {
+    line-height: 50px;
+
+    padding: 0 3em;
+    list-style: none;
+    text-decoration: none;
+    color: #ffffff;
+    width: 100%;
+    font-weight: 800;
+  }
+
+  // گزینه هایی که فلش دارن
+
+  label {
+    line-height: 50px;
+    margin: 0;
+    padding: 0 2em;
+    list-style: none;
+    text-decoration: none;
+    color: #ffffff;
+    width: 100%;
+    font-weight: 800;
+  }
+
+  // منوهای داخل منو چند مرحله ایی
+  .item ul {
+    padding: 0 0.25em;
+    background-color: rgb(255, 20, 71);
+  }
+
+  .nav li a {
+    line-height: 50px;
+    margin: 0;
+    padding: 0 4em;
+    list-style: none;
+    text-decoration: none;
+    color: #ffffff;
+
+    font-weight: 800;
+  }
+  #nav-icon:hover {
+    color: black;
+  }
+  a:hover {
+    color: black;
+  }
+  label:hover {
+    color: rgb(12, 12, 12);
+    transition: 1s;
+    cursor: pointer;
+  }
+
+  .item a:hover {
+    color: rgb(0, 0, 0);
+    transition: 1s;
+  }
+  .slide__heading {
+    font-size: 2rem;
+    margin: 7rem 2rem;
+  }
+  .slide__text {
+    font-size: 2rem;
+    margin: -6rem 2rem;
+  }
+  .gridi {
+    display: block;
+  }
+
+  // page moarefiiii
+  .animated-title > div.text-top {
+    border-bottom: 1vmin solid rgb(243, 87, 26);
+  }
+}
+@media (max-width: 650px) {
+  .foot-g {
+    display: block;
+  }
+  footer span {
+    margin: 0.5rem;
+  }
+}
+@media (max-width: 550px) {
+  .slide__heading {
+    font-size: 1.5rem;
+    margin: 8rem 2rem;
+  }
+  .slide__text {
+    font-size: 1.5rem;
+    margin: -7rem 2rem;
+  }
+
+  .slideshow li span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+  }
+  .forms-section {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .forms {
+    margin: 2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  #logo {
+    margin: auto;
+    text-decoration: none;
+  }
+  .popout {
+    font-size: 1.9rem;
+  }
+}
